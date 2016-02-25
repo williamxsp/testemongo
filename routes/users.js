@@ -21,9 +21,7 @@ module.exports = function(app, router){
     var user = new User();
     user.name = name;
     user.email = email;
-    user.password = 'password';
-    user.token = 'pruu';
-    console.log(user);
+    user.password = password;
 
     user.save(function(err, user){
       if(err){
@@ -33,6 +31,7 @@ module.exports = function(app, router){
       }
     });
   });
+
   router.route('/users/me')
   .get(isLoggedIn, function(req, res, next){
     res.json(req.user.name);

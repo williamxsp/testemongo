@@ -18,12 +18,10 @@ module.exports = function (app, passport) {
 
     User.findOne({
       name:req.body.name
-    }, function(err, user){
+    }, 'name +password', function(err, user){
 
       if(err) throw err;
-        console.log(JSON.stringify(user));
-        console.log('password - ' + user.password);
-        return 0;
+      
 
       if(!user){
         res.json({sucess:false, message:'Authentication Failed'});
