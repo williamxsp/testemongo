@@ -33,12 +33,38 @@ module.exports = function(app, router){
     });
   });
 
+
+
   router.route('/users/me')
   .get(function(req, res, next){
-    // console.log(req);
     res.json(req.user);
+    return;
     // res.send('me');
   });
+
+  router.route('/users/:id')
+  .get(function(req, res, next){
+      var id = req.params['id'] || null;
+
+      if(id){
+        // if(id !== req.user.id){
+        //   return next({friendlyMessage: 'You cant see others profile'});
+        // }
+        User.findById(id, function(err, user){
+          if(err) next(err);
+          if(user){
+            res.json(user);
+            return;
+          }
+
+          return next({friendlyMessage:'User Not Found'});
+
+
+        });
+      }
+  });
+
+
 
 
 }
