@@ -6,11 +6,11 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var passport = require('passport');
+var logger = require('morgan');
+
 // var cookieParser = require('cookie-parser');
 // var cookieSession = require('cookie-session');
 // var expressSession = require('express-session');
-
-
 
 
 
@@ -41,7 +41,7 @@ app.use(bodyParser.urlencoded({
 app.use(passport.initialize());
 // app.use(passport.session());
 app.set('superSecret', '109341031onakldlnad89hadash0dasopijda');
-
+app.use(logger('dev'));
 
 //ROTAS
 
@@ -69,6 +69,24 @@ require('./config/routes')(app);
 /*function(username, password, done){
 
 }*/
+
+//LOGGER
+// console.log(app.get('env'));
+if(app.get('env') === 'development'){
+  app.use(function(err, req, res, next){
+    console.log(err);
+    res.status(err.status || 400);
+    res.json({
+      error:err,
+      message: err.message || err.friendlyMessage,
+      friendlyMessage:err.friendlyMessage
+    });
+  });
+}
+
+process.on('uncaughtException', function(err){
+  console.log(err);
+});
 
 
 
