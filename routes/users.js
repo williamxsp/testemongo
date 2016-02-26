@@ -35,6 +35,7 @@ module.exports = function(app, router){
 
   router.route('/users/me')
   .get(passport.authenticate('bearer', {session: false}), function(req, res, next){
+    
     res.json({legal:'legal'});
     // res.send('me');
   });
