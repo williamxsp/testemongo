@@ -1,6 +1,6 @@
 //BEARER STRATEGY
 var BearerStrategy = require('passport-http-bearer').Strategy;
-var Token = require('../models/token');
+var User = require('../models/user');
 // JSON WEB TOKEN
 var jwt = require('jsonwebtoken');
 
@@ -11,12 +11,11 @@ module.exports = function(passport, app){
 
   //CONFIGURAR BEARER
   passport.use(new BearerStrategy(function (token, cb) {
-    jwt.verify(token, app.get('superSecret'), function(err, decoded) {
+    jwt.verify(token, process.env.PRIVATE_KEY, function(err, decoded) {
       if (err) return cb(err);
-      console.log(decoded);
-      var userId = decoded.id ? decoded.id : false;
+      var userId = decoded.user ? decoded.user : false;
       if(userId){
-        var user = Token.findById(userId, 'id name ', function(err, user){
+        var user = User.findById(userId, 'id name ', function(err, user){
           if(!err){
             return cb(null, user);
           }

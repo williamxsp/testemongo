@@ -40,7 +40,7 @@ app.use(bodyParser.urlencoded({
 // app.use(cookieSession({secret:'lady-gaga'}));
 app.use(passport.initialize());
 // app.use(passport.session());
-app.set('superSecret', '109341031onakldlnad89hadash0dasopijda');
+
 app.use(logger('dev'));
 
 //ROTAS
