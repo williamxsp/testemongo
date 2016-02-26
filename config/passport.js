@@ -5,6 +5,8 @@ var User = require('../models/user');
 var jwt = require('jsonwebtoken');
 
 
+
+
 module.exports = function(passport, app){
 
   //CONFIGURAR BEARER

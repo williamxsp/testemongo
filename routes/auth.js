@@ -1,6 +1,8 @@
 var express = require('express');
 var User = require('../models/user');
 var jwt = require('jsonwebtoken');
+
+
 module.exports = function (app, passport) {
   // app.post('/auth/local', function(req, res, next){
   //   passport.authenticate('local-login', function(err, user, info)
