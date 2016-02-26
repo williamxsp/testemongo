@@ -6,35 +6,30 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var passport = require('passport');
-var cookieParser = require('cookie-parser');
-var cookieSession = require('cookie-session');
-var expressSession = require('express-session');
+// var cookieParser = require('cookie-parser');
+// var cookieSession = require('cookie-session');
+// var expressSession = require('express-session');
 
-//BEARER STRATEGY
-var bearerStrategy = require('passport-http-bearer').Strategy;
 
-// JSON WEB TOKEN
-var jwt = require('jsonwebtoken');
+
+
 
 
 mongoose.connect(process.env.MONGO_URI);
 
 
 //CONFIGURAR BEARER
-passport.use('bearer', new bearerStrategy(
-  function(token, cb){
-    require('./models/user').findOne({token:token}, function(err, user){
-
-      if(err) {return cb(err);}
-      if(!user) {return cb(null, false);}
-      return cb(null, user);
-    });
-  }
-));
+// passport.use(new BearerStrategy(function (token, cb) {
+//   jwt.verify(token, app.get('superSecret'), function(err, decoded) {
+//     if (err) return cb(err);
+//     var user = decoded;
+//     return cb(null, user ? user : false);
+//   });
+// }));
 
 
 var app = express();
-app.use(cookieParser());
+// app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended:true
@@ -42,16 +37,20 @@ app.use(bodyParser.urlencoded({
 
 // app.use(cookieParser());
 // app.use(expressSession({secret:'lady-gaga', resave:false, saveUninitialized:false}));
-app.use(cookieSession({secret:'lady-gaga'}));
+// app.use(cookieSession({secret:'lady-gaga'}));
 app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.session());
 app.set('superSecret', '109341031onakldlnad89hadash0dasopijda');
 
 
+//ROTAS
 
-app.get('/rotinha', passport.authenticate('bearer', {session: false}), function(req, res){
-  res.json(req.user);
-});
+require('./config/passport')(passport, app);
+
+
+
+require('./config/routes')(app);
+
 
 
 // app.use(cookieParser());
@@ -70,9 +69,7 @@ app.get('/rotinha', passport.authenticate('bearer', {session: false}), function(
 /*function(username, password, done){
 
 }*/
-//ROTAS
-require('./config/routes')(app);
-require('./config/passport')(passport);
+
 
 
 //INICIAR APLICAÇÃO

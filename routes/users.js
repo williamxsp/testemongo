@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
+var passport = require('passport');
 
 module.exports = function(app, router){
   router.route('/users')
@@ -33,24 +34,10 @@ module.exports = function(app, router){
   });
 
   router.route('/users/me')
-  .get(isLoggedIn, function(req, res, next){
-    res.json(req.user.name);
+  .get(passport.authenticate('bearer', {session: false}), function(req, res, next){
+    res.json({legal:'legal'});
     // res.send('me');
   });
-  router.route('/users/logout')
-  .get(isLoggedIn, function(req, res, next){
-    req.logout();
-    res.send('thcau');
-    // res.send('me');
-  });
-}
 
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }else{
-    return res.status(403).json({message:'é amiguinho, cipá ce não tem acesso ein'});
-  }
 
-  res.redirect('/');
 }
