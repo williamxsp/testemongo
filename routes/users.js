@@ -56,6 +56,35 @@ module.exports = function(app, router){
             res.json(user);
             return;
           }
+          return next({friendlyMessage:'User Not Found'});
+        });
+      }
+  })
+  .post(function(req, res, next){
+      var id = req.params['id'] || null;
+
+      if(id){
+        // if(id !== req.user.id){
+        //   return next({friendlyMessage: 'You cant see others profile'});
+        // }
+        User.findById(id, function(err, user){
+          if(err) next(err);
+          if(user){
+            user.name = req.body.name || user.name;
+            user.email = req.body.email || user.email;
+            var _name = user.name;
+            user.save(function(err, user){
+              if(err) next(err);
+
+              if(user){
+                res.json(user);
+                return;
+              }
+
+              return next({friendlyMessage: 'An error occured while updating ' + _name});
+            });
+            return;
+          }
 
           return next({friendlyMessage:'User Not Found'});
 
