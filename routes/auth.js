@@ -1,6 +1,8 @@
 var express = require('express');
 var User = require('../models/user');
+var Token = require('../models/token')
 var jwt = require('jsonwebtoken');
+var uuid = require('uuid');
 
 
 module.exports = function (app, passport) {
@@ -30,10 +32,13 @@ module.exports = function (app, passport) {
           res.json({sucess:false, message: 'Invalid Password'});
         }else{
 
-          var token = jwt.sign({id:user.id}, app.get('superSecret'), {expiresIn: 1440*60});
-          user.token = token;
-          user.save(function(err, user){
-            res.json({sucess:true, message:'Happy Coding', user:user});
+
+          var tokenAuthorization = new Token();
+          tokenAuthorization.device = uuid.v4();
+          tokenAuthorization.user = user.id;
+          tokenAuthorization.token = jwt.sign({id:user.id, client:tokenAuthorization.device}, app.get('superSecret'), {expiresIn: 1440*60})
+          tokenAuthorization.save(function(err, token){
+            res.json({sucess:true, message:'Happy Coding', token:token.token});
           });
 
         }

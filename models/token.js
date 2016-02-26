@@ -23,4 +23,4 @@ var tokenSchema = new mongoose.Schema({
 
 
 
-module.exports = mongoose.model('Tokenr', tokenSchema);
+module.exports = mongoose.model('Token', tokenSchema);

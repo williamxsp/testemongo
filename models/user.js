@@ -17,9 +17,6 @@ var userSchema = new mongoose.Schema({
     required:true,
     select:false
   },
-  token:{
-    type:String
-  },
   createdOn:{
     type:Date,
     default:Date.now
