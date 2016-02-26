@@ -36,7 +36,7 @@ module.exports = function (app, passport) {
           var tokenAuthorization = new Token();
           tokenAuthorization.device = uuid.v4();
           tokenAuthorization.user = user.id;
-          tokenAuthorization.token = jwt.sign({user:user.id, client:tokenAuthorization.device}, process.env.PRIVATE_KEY, {expiresIn: 60*2}) //2 MINUTES
+          tokenAuthorization.token = jwt.sign({user:user.id, client:tokenAuthorization.device}, process.env.PRIVATE_KEY, {expiresIn: 60*60}) //1 HOUR
           tokenAuthorization.save(function(err, token){
             res.json({sucess:true, message:'Happy Coding', token:token.token});
           });
