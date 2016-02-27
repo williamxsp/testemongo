@@ -18,6 +18,28 @@ module.exports = function (app, passport) {
   //   })(req, res, next);
   // });
 
+  app.post('/auth/register', function(req, res, next)
+{
+
+    var name = req.body.name;
+    var email = req.body.email;
+    var password = req.body.password;
+
+    var user = new User();
+    user.name = name;
+    user.email = email;
+    user.password = password;
+
+    user.save(function(err, user){
+      if(err){
+        return next(err);
+      }else{
+        res.json(user);
+      }
+    });
+
+});
+
   app.post('/auth/token', function(req, res, next){
 
     User.findOne({
