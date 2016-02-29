@@ -49,9 +49,11 @@ module.exports = function (app, passport) {
 
       if(!user){
         res.json({sucess:false, message:'Authentication Failed'});
+        return;
       }else{
         if(user.password != req.body.password){
           res.json({sucess:false, message: 'Invalid Password'});
+          return;
         }else{
 
 
