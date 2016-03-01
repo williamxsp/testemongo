@@ -15,22 +15,6 @@ module.exports = function(app, router){
    });
   })
   .post(function(req, res, next){
-    /*
-      var newRestaurant = {
-    name: 'Nice Restaurant',
-    address:{
-        number:'2',
-        street:'Two Hamburguers St',
-        zipCode: '123123',
-        state:'São Paulo',
-        city:'São Paulo',
-        country:'Brazil'
-    },
-  };
-    */  
-    
-    
-    
     var newRestaurant = new Restaurant();
     newRestaurant.name = req.body.name || null;
     newRestaurant.address = {
@@ -41,9 +25,6 @@ module.exports = function(app, router){
         city:req.body.city || null,
         country:req.body.country || null
     };
-    
-    
-    
     newRestaurant.save(function(err, restaurant)
     {
         if(err) return next(err);
@@ -51,5 +32,43 @@ module.exports = function(app, router){
        return res.json(restaurant);
     });
       
+  });
+  
+  router.route('/restaurants/:id')
+  .get(function(req, res, next) {
+      var id = req.params['id'];
+       Restaurant.findById(id, function(err, restaurant){
+           if(err) return next(err);
+           
+           if(restaurant){
+              return res.json(restaurant); 
+           }else{
+               return next({status:404, message: 'Restaurant not found'});
+           }
+      });
+  })
+  .put(function(req, res, next) {
+      var id = req.params['id'];
+       Restaurant.findById(id, function(err, restaurant){
+           if(err) return next(err);
+           
+           if(restaurant){
+                var newRestaurant = new Restaurant();
+                newRestaurant.name = req.body.name || null;
+                newRestaurant.address = {
+                    number:req.body.number || null,
+                    street:req.body.street || null,
+                    zipCode:req.body.zipCode || null,
+                    state:req.body.state || null,
+                    city:req.body.city || null,
+                    country:req.body.country || null
+                };
+               
+               
+              return res.json(restaurant); 
+           }else{
+               return next({status:404, message: 'Restaurant not found'});
+           }
+      });
   });
 }
