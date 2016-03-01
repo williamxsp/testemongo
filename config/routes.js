@@ -22,10 +22,10 @@ module.exports = function(app, router){
   // });
 
   require('../routes/auth')(app, router, passport);
-
+  require('../routes/restaurants')(app, router);
   /* AUTENTICAR ROTAS */
-  app.all('*', function(req, res, next) {
-
+  app.all('/users', function(req, res, next) {
+  //return next();
     passport.authenticate('bearer', function(err, user, info) {
 
       if (err) return next(err);

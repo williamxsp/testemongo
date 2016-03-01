@@ -43,6 +43,17 @@ app.use(passport.initialize());
 
 app.use(logger('dev'));
 
+
+// allow cross domain
+app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Credentials', false);
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With, Authorization, Cache-Control, Content-Type');
+    if ('OPTIONS' == req.method) return res.send(200);
+    next();
+});
+
 //ROTAS
 
 require('./config/passport')(passport, app);
@@ -91,5 +102,5 @@ process.on('uncaughtException', function(err){
 
 
 //INICIAR APLICAÇÃO
-app.listen(process.env.APP_PORT);
-console.log('Listening on ' + process.env.APP_PORT);
+app.listen(process.env.PORT);
+console.log('Listening on ' + process.env.PORT);
