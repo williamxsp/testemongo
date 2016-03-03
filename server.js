@@ -7,6 +7,7 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var logger = require('morgan');
+var FacebookStrategy = require('passport-facebook').Strategy;
 
 // var cookieParser = require('cookie-parser');
 // var cookieSession = require('cookie-session');
@@ -53,6 +54,19 @@ app.use(function(req, res, next) {
     if ('OPTIONS' == req.method) return res.send(200);
     next();
 });
+
+app.use(new FacebookStrategy({
+  clientID:'123',
+  clientSecret:'123',
+  callbackURL:'https://testemongo-williaxmsp.c9users.io/me'
+}, function(token, refreshToken, profile, done){
+  process.nextTick(function(){
+    User.findOne({'facebook.id':profile.id}, function(err, user)
+    {
+      
+    })
+  })
+}));
 
 //ROTAS
 

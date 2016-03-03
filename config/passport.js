@@ -1,5 +1,6 @@
 //BEARER STRATEGY
 var BearerStrategy = require('passport-http-bearer').Strategy;
+
 var User = require('../models/user');
 // JSON WEB TOKEN
 var jwt = require('jsonwebtoken');

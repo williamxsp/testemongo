@@ -12,6 +12,15 @@ var userSchema = new mongoose.Schema({
       unique:true
     },
   },
+  facebook:{
+    id:{
+      type:String,
+      required:true,
+      index:{
+        unique:true
+      }
+    }
+  },
   password:{
     type:String,
     required:true,

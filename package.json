@@ -17,6 +17,7 @@
     "mongoose": "^4.4.4",
     "morgan": "^1.7.0",
     "passport": "^0.3.2",
+    "passport-facebook": "^2.1.0",
     "passport-http-bearer": "^1.0.1",
     "uuid": "^2.0.1"
   },
